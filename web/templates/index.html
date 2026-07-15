@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>contentValidationAgent</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">CV</span>
+        <span class="brand-name">contentValidationAgent</span>
+      </div>
+      <div class="status-indicator" id="provider-indicator">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">idle</span>
+      </div>
+    </header>
+
+    <main class="workspace">
+
+      <section class="panel panel-input" aria-labelledby="input-heading">
+        <h2 id="input-heading" class="panel-label">Input</h2>
+
+        <div class="mode-toggle" role="tablist" aria-label="Input mode">
+          <button type="button" class="mode-btn is-active" id="mode-topic-btn" role="tab" aria-selected="true">Topic</button>
+          <button type="button" class="mode-btn" id="mode-doc-btn" role="tab" aria-selected="false">Upload document</button>
+        </div>
+
+        <div id="topic-input-group">
+          <label for="topic-input" class="sr-only">Topic</label>
+          <textarea id="topic-input" rows="3" placeholder="e.g. loop engineering vs prompt engineering"></textarea>
+        </div>
+
+        <div id="doc-input-group" class="hidden">
+          <label for="doc-input" class="file-drop" id="file-drop-label">
+            <i class="ti ti-upload" aria-hidden="true"></i>
+            <span id="file-drop-text">Choose a .docx, .txt, or .md file</span>
+          </label>
+          <input type="file" id="doc-input" accept=".docx,.txt,.md" class="sr-only">
+        </div>
+
+        <div class="select-row">
+          <label for="platform-select" class="sr-only">Platform</label>
+          <select id="platform-select">
+            <option value="linkedin">LinkedIn</option>
+            <option value="medium">Medium</option>
+          </select>
+        </div>
+
+        <p class="provider-note">
+          <i class="ti ti-cpu" aria-hidden="true"></i>
+          Running locally via Ollama — no API key, no cost
+        </p>
+
+        <button type="button" id="generate-btn" class="btn btn-primary btn-block">
+          <span id="generate-btn-label">Generate draft</span>
+        </button>
+
+        <div class="pipeline-status" aria-live="polite">
+          <h3 class="panel-label">Pipeline status</h3>
+          <ul id="status-list" class="status-list">
+            <li class="status-item" data-step="generate">
+              <i class="ti ti-circle-dashed" aria-hidden="true"></i>
+              <span>Generate draft</span>
+            </li>
+            <li class="status-item" data-step="validate">
+              <i class="ti ti-circle-dashed" aria-hidden="true"></i>
+              <span>Validate</span>
+            </li>
+            <li class="status-item" data-step="review">
+              <i class="ti ti-circle-dashed" aria-hidden="true"></i>
+              <span>Awaiting your review</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel panel-output" aria-labelledby="output-heading">
+        <h2 id="output-heading" class="panel-label">Draft &amp; validation</h2>
+
+        <div id="empty-state" class="empty-state">
+          <i class="ti ti-file-text" aria-hidden="true"></i>
+          <p>Your draft will appear here once generated.</p>
+        </div>
+
+        <div id="result" class="result hidden">
+          <div class="draft-box" id="draft-box" contenteditable="false"></div>
+
+          <div class="metrics-row">
+            <div class="metric-card">
+              <p class="metric-label">Voice score</p>
+              <p class="metric-value" id="voice-score-value">—</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-label">AI-sounding score</p>
+              <p class="metric-value" id="ai-score-value">—</p>
+            </div>
+          </div>
+
+          <div id="issues-list" class="issues-list"></div>
+
+          <div class="action-row">
+            <button type="button" id="edit-btn" class="btn btn-secondary">Edit</button>
+            <button type="button" id="approve-btn" class="btn btn-primary">Approve &amp; copy</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css"></script>
+  <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
