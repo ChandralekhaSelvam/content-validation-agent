@@ -1,4 +1,4 @@
-# contentValidationAgent
+# ContentValidationAgent
 
 A LangGraph multi-agent pipeline that generates **and validates** LinkedIn/Medium posts — from a topic string or an uploaded document (.docx/.txt/.md) — using a locally-run LLM via Ollama for generation and a fine-tuned small language model (Llama 3.2 3B + LoRA) for voice/tone validation in a bounded generate → validate → revise loop with human-in-the-loop escalation.
 
@@ -27,11 +27,11 @@ But *validating whether a draft sounds like a specific person* is a narrow, repe
 
 ```
 router → generate_from_topic ─────────┐
-      └→ extract_doc → rewrite_from_doc┤
-                                        ▼
-                                    validate ◄──┐
-                                  /    |    \   │
-                          revise ┘  finalize  human_review
+      └→ extract_doc → rewrite_from_doc  ┤
+                                         ▼
+                                     validate   ◄──┐
+                                   /    |      \   │
+                              revise finalize  human_review
                                         │            │
                                        END          END
 ```
@@ -47,11 +47,11 @@ The loop is bounded by `max_iterations` (default 3); if it's exhausted without p
 
 ```bash
 pip install -r requirements.txt
-sudo apt install pandoc   # required for .docx extraction
+sudo apt install pandoc
 
 brew install ollama
-ollama serve              # run as a background service
-ollama pull llama3.2      # ~2GB
+ollama serve
+ollama pull llama3.2
 ```
 
 Set `OLLAMA_MODEL` env var to use a different pulled model (e.g. `mistral`).
@@ -63,7 +63,7 @@ Tradeoff to know going in: a local 3B-8B model is noticeably weaker at long-form
 A minimal Flask UI wraps the same graph — no pipeline logic lives in the web layer, it's a thin JSON API plus a single-page vanilla-JS frontend.
 
 ```bash
-ollama serve   # if not already running
+ollama serve
 python web/app.py
 ```
 

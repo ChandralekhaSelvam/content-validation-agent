@@ -1,0 +1,8 @@
+# Core orchestration
+langgraph>=0.2.0
+ 
+# Web UI
+flask>=3.0.0
+ 
+# LLM
+ollama>=0.4.0
